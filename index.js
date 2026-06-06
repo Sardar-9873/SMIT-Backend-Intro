@@ -1,185 +1,185 @@
-const http = require("http");
+// const http = require("http");
 
-const students = [{ name: "Aaban", age: 15, id: 1 }];
-let lastAddedID = 1;
+// const students = [{ name: "Aaban", age: 15, id: 1 }];
+// let lastAddedID = 1;
 
-const server = http.createServer((req, res) => {
+// const server = http.createServer((req, res) => {
 
-    // ===================== POST =====================
-    if (req.url === "/student" && req.method === "POST") {
+//     // ===================== POST =====================
+//     if (req.url === "/student" && req.method === "POST") {
 
-        let data = "";
+//         let data = "";
 
-        req.on("data", chunk => {
-            data += chunk;
-        });
+//         req.on("data", chunk => {
+//             data += chunk;
+//         });
 
-        req.on("end", () => {
-            const body = JSON.parse(data);
+//         req.on("end", () => {
+//             const body = JSON.parse(data);
 
-            const newStudent = {
-                ...body,
-                id: ++lastAddedID
-            };
+//             const newStudent = {
+//                 ...body,
+//                 id: ++lastAddedID
+//             };
 
-            students.push(newStudent);
+//             students.push(newStudent);
 
-            res.writeHead(201, {
-                "Content-Type": "application/json"
-            });
+//             res.writeHead(201, {
+//                 "Content-Type": "application/json"
+//             });
 
-            return res.end(JSON.stringify({
-                Info: "Student Created",
-                student: newStudent
-            }));
-        });
+//             return res.end(JSON.stringify({
+//                 Info: "Student Created",
+//                 student: newStudent
+//             }));
+//         });
 
-        return;
-    }
+//         return;
+//     }
 
-    // ===================== GET =====================
-    if (req.url.startsWith("/student") && req.method === "GET") {
+//     // ===================== GET =====================
+//     if (req.url.startsWith("/student") && req.method === "GET") {
 
-        const id = req.url.split("=")[1];
+//         const id = req.url.split("=")[1];
 
-        const student = students.find(s => s.id === Number(id));
+//         const student = students.find(s => s.id === Number(id));
 
-        if (!student) {
-            res.writeHead(404, {
-                "Content-Type": "application/json"
-            });
+//         if (!student) {
+//             res.writeHead(404, {
+//                 "Content-Type": "application/json"
+//             });
 
-            return res.end(JSON.stringify({
-                Info: "Student Not Found"
-            }));
-        }
+//             return res.end(JSON.stringify({
+//                 Info: "Student Not Found"
+//             }));
+//         }
 
-        res.writeHead(200, {
-            "Content-Type": "application/json"
-        });
+//         res.writeHead(200, {
+//             "Content-Type": "application/json"
+//         });
 
-        return res.end(JSON.stringify(student));
-    }
+//         return res.end(JSON.stringify(student));
+//     }
 
-    // ===================== Get ========================
-    if (req.url.startsWith("/student") && req.method === "GET") {
+//     // ===================== Get ========================
+//     if (req.url.startsWith("/student") && req.method === "GET") {
 
-        const id = req.url.split("=")[1];
+//         const id = req.url.split("=")[1];
 
 
-        // if no id provided
-        if (!id) {
-            res.writeHead(400, {
-                "Content-Type": "application/json"
-            });
+//         // if no id provided
+//         if (!id) {
+//             res.writeHead(400, {
+//                 "Content-Type": "application/json"
+//             });
 
-            return res.end(JSON.stringify({
-                Info: "ID is required"
-            }));
-        }
+//             return res.end(JSON.stringify({
+//                 Info: "ID is required"
+//             }));
+//         }
 
-        const student = students.find(s => s.id === Number(id));
+//         const student = students.find(s => s.id === Number(id));
 
-        if (!student) {
-            res.writeHead(404, {
-                "Content-Type": "application/json"
-            });
+//         if (!student) {
+//             res.writeHead(404, {
+//                 "Content-Type": "application/json"
+//             });
 
-            return res.end(JSON.stringify({
-                Info: "Student Not Found"
-            }));
-        }
+//             return res.end(JSON.stringify({
+//                 Info: "Student Not Found"
+//             }));
+//         }
 
-        res.writeHead(200, {
-            "Content-Type": "application/json"
-        });
+//         res.writeHead(200, {
+//             "Content-Type": "application/json"
+//         });
 
-        return res.end(JSON.stringify(student));
-    }
+//         return res.end(JSON.stringify(student));
+//     }
 
-    // ===================== DELETE =====================
-    if (req.url.startsWith("/student") && req.method === "DELETE") {
+//     // ===================== DELETE =====================
+//     if (req.url.startsWith("/student") && req.method === "DELETE") {
 
-        const id = req.url.split("=")[1];
+//         const id = req.url.split("=")[1];
 
-        const studentIndex = students.findIndex(s => s.id === Number(id));
+//         const studentIndex = students.findIndex(s => s.id === Number(id));
 
-        if (studentIndex === -1) {
-            res.writeHead(404, {
-                "Content-Type": "application/json"
-            });
+//         if (studentIndex === -1) {
+//             res.writeHead(404, {
+//                 "Content-Type": "application/json"
+//             });
 
-            return res.end(JSON.stringify({
-                Info: "Student Not Found"
-            }));
-        }
+//             return res.end(JSON.stringify({
+//                 Info: "Student Not Found"
+//             }));
+//         }
 
-        const deleted = students.splice(studentIndex, 1);
+//         const deleted = students.splice(studentIndex, 1);
 
-        res.writeHead(200, {
-            "Content-Type": "application/json"
-        });
+//         res.writeHead(200, {
+//             "Content-Type": "application/json"
+//         });
 
-        return res.end(JSON.stringify({
-            Info: "Student Deleted",
-            student: deleted[0]
-        }));
-    }
+//         return res.end(JSON.stringify({
+//             Info: "Student Deleted",
+//             student: deleted[0]
+//         }));
+//     }
 
-    // ===================== PUT =====================
-    if (req.url.startsWith("/student") && req.method === "PUT") {
+//     // ===================== PUT =====================
+//     if (req.url.startsWith("/student") && req.method === "PUT") {
 
-        const id = req.url.split("=")[1];
+//         const id = req.url.split("=")[1];
 
-        const studentIndex = students.findIndex(s => s.id === Number(id));
+//         const studentIndex = students.findIndex(s => s.id === Number(id));
 
-        if (studentIndex === -1) {
-            res.writeHead(404, {
-                "Content-Type": "application/json"
-            });
+//         if (studentIndex === -1) {
+//             res.writeHead(404, {
+//                 "Content-Type": "application/json"
+//             });
 
-            return res.end(JSON.stringify({
-                Info: "Student Not Found"
-            }));
-        }
+//             return res.end(JSON.stringify({
+//                 Info: "Student Not Found"
+//             }));
+//         }
 
-        let data = "";
+//         let data = "";
 
-        req.on("data", chunk => {
-            data += chunk;
-        });
+//         req.on("data", chunk => {
+//             data += chunk;
+//         });
 
-        req.on("end", () => {
-            const body = JSON.parse(data);
+//         req.on("end", () => {
+//             const body = JSON.parse(data);
 
-            students[studentIndex] = {
-                ...body,
-                id: Number(id)
-            };
+//             students[studentIndex] = {
+//                 ...body,
+//                 id: Number(id)
+//             };
 
-            res.writeHead(200, {
-                "Content-Type": "application/json"
-            });
+//             res.writeHead(200, {
+//                 "Content-Type": "application/json"
+//             });
 
-            return res.end(JSON.stringify({
-                Info: "Student Updated",
-                student: students[studentIndex]
-            }));
-        });
+//             return res.end(JSON.stringify({
+//                 Info: "Student Updated",
+//                 student: students[studentIndex]
+//             }));
+//         });
 
-        return;
-    }
+//         return;
+//     }
 
-    // ===================== DEFAULT =====================
-    res.writeHead(404, {
-        "Content-Type": "application/json"
-    });
+//     // ===================== DEFAULT =====================
+//     res.writeHead(404, {
+//         "Content-Type": "application/json"
+//     });
 
-    res.end(JSON.stringify({
-        Info: "Route Not Found"
-    }));
-});
+//     res.end(JSON.stringify({
+//         Info: "Route Not Found"
+//     }));
+// });
 
-server.listen(5000, () => {
-    console.log("Server running on port 5000");
-});
+// server.listen(5000, () => {
+//     console.log("Server running on port 5000");
+// });
